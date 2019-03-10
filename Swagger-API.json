@@ -1,0 +1,283 @@
+{
+   "swagger":"2.0",
+   "info":{
+      "description":"User Management REST API",
+      "version":"1.0.0",
+      "title":"User Profiles Management",
+      "contact":{
+         "name":"Anoop",
+         "email":"anoop.putta@gmail.com"
+      },
+      "license":{
+         "name":"Apache 2.0",
+         "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+   },
+   "host":"localhost:8080",
+   "basePath":"/",
+   "tags":[
+      {
+         "name":"user-controller",
+         "description":"Operations pertaining to user in Profile Management System"
+      }
+   ],
+   "paths":{
+      "/api/v1/users":{
+         "get":{
+            "tags":[
+               "user-controller"
+            ],
+            "summary":"View a list of available users",
+            "operationId":"getAllUsersUsingGET",
+            "produces":[
+               "*/*"
+            ],
+            "responses":{
+               "200":{
+                  "description":"Successfully retrieved all users",
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"object"
+                     }
+                  }
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               },
+               "404":{
+                  "description":"Resource doesn't exist"
+               }
+            }
+         },
+         "post":{
+            "tags":[
+               "user-controller"
+            ],
+            "summary":"Add an user",
+            "operationId":"createUserUsingPOST",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "*/*"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"user",
+                  "description":"User object store in database table",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/User"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"OK",
+                  "schema":{
+                     "type":"object"
+                  }
+               },
+               "201":{
+                  "description":"Successfully created user",
+                  "schema":{
+                     "type":"object"
+                  }
+               },
+               "400":{
+                  "description":"Bad Request"
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               },
+               "409":{
+                  "description":"User already exists"
+               }
+            }
+         }
+      },
+      "/api/v1/users/{id}":{
+         "get":{
+            "tags":[
+               "user-controller"
+            ],
+            "summary":"Get an user by Id",
+            "operationId":"getUserByIdUsingGET",
+            "produces":[
+               "*/*"
+            ],
+            "parameters":[
+               {
+                  "name":"id",
+                  "in":"path",
+                  "description":"User id from which user object will retrieve",
+                  "required":true,
+                  "type":"string"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Successfully retrieved user",
+                  "schema":{
+                     "$ref":"#/definitions/User"
+                  }
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               },
+               "404":{
+                  "description":"Resource doesn't exist"
+               }
+            }
+         },
+         "put":{
+            "tags":[
+               "user-controller"
+            ],
+            "summary":"Update an user",
+            "operationId":"updateUserUsingPUT",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "*/*"
+            ],
+            "parameters":[
+               {
+                  "name":"id",
+                  "in":"path",
+                  "description":"User Id to update user object",
+                  "required":true,
+                  "type":"string"
+               },
+               {
+                  "in":"body",
+                  "name":"userDetails",
+                  "description":"Update user object",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/User"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Successfully updated user",
+                  "schema":{
+                     "$ref":"#/definitions/User"
+                  }
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               },
+               "404":{
+                  "description":"Resource doesn't exist"
+               }
+            }
+         },
+         "delete":{
+            "tags":[
+               "user-controller"
+            ],
+            "summary":"Delete an user",
+            "operationId":"deleteUserUsingDELETE",
+            "produces":[
+               "*/*"
+            ],
+            "parameters":[
+               {
+                  "name":"id",
+                  "in":"path",
+                  "description":"User Id from which user object will delete from database table",
+                  "required":true,
+                  "type":"string"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"OK",
+                  "schema":{
+                     "type":"object"
+                  }
+               },
+               "204":{
+                  "description":"Successfully deleted user",
+                  "schema":{
+                     "type":"object"
+                  }
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               },
+               "404":{
+                  "description":"Resource doesn't exist"
+               }
+            }
+         }
+      }
+   },
+   "definitions":{
+      "Address":{
+         "type":"object",
+         "properties":{
+            "address":{
+               "type":"string",
+               "description":"Detailed address",
+               "allowEmptyValue":false
+            },
+            "phone":{
+               "type":"string",
+               "description":"User phone number",
+               "allowEmptyValue":false
+            },
+            "type":{
+               "type":"string",
+               "description":"Address type, home or office",
+               "allowEmptyValue":false
+            }
+         },
+         "title":"Address",
+         "description":"Address of a User"
+      },
+      "User":{
+         "type":"object",
+         "properties":{
+            "additionalDetails":{
+               "type":"object",
+               "description":"Additional details of a user",
+               "allowEmptyValue":false,
+               "additionalProperties":{
+                  "type":"string"
+               }
+            },
+            "addresses":{
+               "type":"array",
+               "description":"Addresses of the user",
+               "allowEmptyValue":false,
+               "items":{
+                  "$ref":"#/definitions/Address"
+               }
+            },
+            "email":{
+               "type":"string",
+               "description":"Email Id of the user",
+               "allowEmptyValue":false
+            },
+            "firstName":{
+               "type":"string",
+               "description":"The user first name",
+               "allowEmptyValue":false
+            },
+            "lastName":{
+               "type":"string",
+               "description":"The user last name",
+               "allowEmptyValue":false
+            }
+         },
+         "title":"User",
+         "description":"All details about the User. "
+      }
+   }
+}

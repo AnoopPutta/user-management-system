@@ -54,6 +54,17 @@ Application is built as a micro service which can deployed on any cloud platform
    ```
    Application starts up, to confirm the same look for the text "Tomcat started on port(s): 8080 (http)" on the console.
 
-4. This application is integrated with Swagger UI, all the API documentation can be found by accessing the URL - http://localhost:8080/swagger-ui.html
+4. This application is integrated with Swagger UI, all the API documentation can be found by accessing the URL - http://localhost:8080/upms/swagger-ui.html or http://localhost:8080/upms/v2/api-docs.
 
-5. Please refer Swagger-API.json file for API documentation if
+5. Please refer Swagger-API.json file for API documentation, if starting the spring boot application is not the choice.
+
+## 4. Executing Tests and Coverage report
+
+1. Clone the project
+2. cd to project directory
+3. Run the below commands
+   ```
+   $ mvn test
+   ```
+4. Coverage report will be created under target folder.
+   Open the file jacoco-ut/index.html in browser. All the details related to coverage is shown.
